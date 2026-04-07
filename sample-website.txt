@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Digital Learning Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --navy: #0a0f2e;
+      --deep: #0d1a4a;
+      --blue: #1a3fb5;
+      --cyan: #00d4ff;
+      --mint: #00f5c4;
+      --white: #f0f4ff;
+      --muted: #8a93b8;
+      --card-bg: rgba(255,255,255,0.04);
+      --border: rgba(0,212,255,0.15);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--navy);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(10,15,46,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: 0.05em;
+      color: var(--cyan);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.25s;
+    }
+
+    .nav-links a:hover { color: var(--cyan); }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 4rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,212,255,0.12) 0%, transparent 70%);
+      top: -100px; right: -200px;
+      pointer-events: none;
+      animation: pulse 6s ease-in-out infinite;
+    }
+
+    .hero-glow-2 {
+      position: absolute;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,245,196,0.08) 0%, transparent 70%);
+      bottom: -100px; left: -150px;
+      pointer-events: none;
+      animation: pulse 8s ease-in-out infinite reverse;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.7; }
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(0,212,255,0.1);
+      border: 1px solid rgba(0,212,255,0.3);
+      border-radius: 2rem;
+      padding: 0.35rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+      animation: blink 1.5s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.4rem, 4vw, 3.8rem);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.8s 0.15s ease both;
+    }
+
+    h1 span {
+      background: linear-gradient(135deg, var(--cyan), var(--mint));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      max-width: 480px;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      animation: fadeUp 0.8s 0.45s ease both;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--cyan), var(--mint));
+      color: var(--navy);
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 30px rgba(0,212,255,0.25);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 50px rgba(0,212,255,0.4);
+    }
+
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    .hero-visual {
+      position: relative;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+
+    .hero-card-main {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 1.5rem;
+      padding: 2.5rem;
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card-main::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    }
+
+    .card-icon-row {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .card-dot.r { background: #ff5f57; }
+    .card-dot.y { background: #febc2e; }
+    .card-dot.g { background: #28c840; }
+
+    .card-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .stat-item {
+      background: rgba(0,212,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      padding: 1rem;
+    }
+
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.8rem;
+      color: var(--cyan);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+
+    .stat-label { font-size: 0.75rem; color: var(--muted); }
+
+    .floating-badge {
+      position: absolute;
+      bottom: -1.5rem; right: -1.5rem;
+      background: linear-gradient(135deg, var(--blue), #0d2b8c);
+      border: 1px solid rgba(0,212,255,0.3);
+      border-radius: 1rem;
+      padding: 1rem 1.5rem;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--white);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    section { padding: 6rem 4rem; position: relative; z-index: 1; }
+
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+
+    .section-eyebrow {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+    }
+
+    .section-body {
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 640px;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0 4rem;
+    }
+
+    .mv-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .mv-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 1.25rem;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .mv-card:hover {
+      border-color: rgba(0,212,255,0.4);
+      transform: translateY(-4px);
+    }
+
+    .mv-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--cyan), var(--mint));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .mv-card:hover::after { opacity: 1; }
+
+    .mv-icon { font-size: 2.2rem; margin-bottom: 1.2rem; display: block; }
+
+    .mv-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      margin-bottom: 0.75rem;
+      color: var(--white);
+    }
+
+    .mv-card p {
+      font-size: 0.92rem;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--muted);
+    }
+
+    .desc-section { background: rgba(255,255,255,0.015); }
+
+    .desc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .desc-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 1.25rem;
+      padding: 2rem;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .desc-card:hover {
+      border-color: rgba(0,245,196,0.35);
+      transform: translateY(-4px);
+    }
+
+    .desc-card-num {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 3rem;
+      line-height: 1;
+      margin-bottom: 0.75rem;
+      background: linear-gradient(135deg, var(--cyan), var(--mint));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .desc-card h4 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .desc-card p {
+      font-size: 0.88rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 2rem;
+    }
+
+    .skill-pill {
+      background: rgba(0,212,255,0.07);
+      border: 1px solid rgba(0,212,255,0.2);
+      border-radius: 2rem;
+      padding: 0.5rem 1.25rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--cyan);
+      transition: background 0.2s;
+    }
+
+    .skill-pill:hover { background: rgba(0,212,255,0.15); }
+
+    .budget-wrapper {
+      margin-top: 3rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 1.5rem;
+      overflow: hidden;
+    }
+
+    .budget-header {
+      background: rgba(0,212,255,0.06);
+      border-bottom: 1px solid var(--border);
+      padding: 1.25rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .budget-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      padding: 1.25rem 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      transition: background 0.2s;
+    }
+
+    .budget-row:hover { background: rgba(0,212,255,0.03); }
+    .budget-row:last-child { border-bottom: none; }
+
+    .budget-item-name { font-size: 0.95rem; color: var(--white); }
+
+    .budget-item-amount {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--mint);
+    }
+
+    .budget-total {
+      background: rgba(0,245,196,0.07);
+      border-top: 1px solid rgba(0,245,196,0.2);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      padding: 1.5rem 2rem;
+    }
+
+    .budget-total-label {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--white);
+    }
+
+    .budget-total-amount {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.5rem;
+      background: linear-gradient(135deg, var(--cyan), var(--mint));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .contact-section { background: rgba(255,255,255,0.015); }
+
+    .contact-card {
+      margin-top: 3rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 1.5rem;
+      padding: 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--cyan), var(--mint), var(--cyan));
+      background-size: 200% 100%;
+      animation: shimmer 3s linear infinite;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .contact-heading {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.8rem;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .contact-heading span {
+      background: linear-gradient(135deg, var(--cyan), var(--mint));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .contact-sub { font-size: 0.95rem; color: var(--muted); line-height: 1.7; }
+
+    .contact-info-list { display: flex; flex-direction: column; gap: 1.2rem; }
+
+    .contact-info-item { display: flex; align-items: center; gap: 1rem; }
+
+    .contact-info-icon {
+      width: 40px; height: 40px;
+      border-radius: 0.6rem;
+      background: rgba(0,212,255,0.1);
+      border: 1px solid rgba(0,212,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .contact-info-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.15rem;
+    }
+
+    .contact-info-value { font-size: 0.95rem; color: var(--white); font-weight: 500; }
+
+    footer {
+      padding: 2rem 4rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: var(--cyan);
+    }
+
+    .footer-copy { font-size: 0.8rem; color: var(--muted); }
+
+    @supports (animation-timeline: view()) {
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: revealUp 0.7s ease forwards;
+        animation-timeline: view();
+        animation-range: entry 0% entry 25%;
+      }
+    }
+
+    @supports not (animation-timeline: view()) {
+      .reveal { opacity: 1; transform: none; }
+    }
+
+    @keyframes revealUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 900px) {
+      nav { padding: 1rem 2rem; }
+      .nav-links { display: none; }
+      section { padding: 4rem 2rem; }
+      .hero { padding: 6rem 2rem 3rem; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .mv-grid { grid-template-columns: 1fr; }
+      .desc-grid { grid-template-columns: 1fr; }
+      .contact-card { grid-template-columns: 1fr; gap: 2rem; }
+      footer { padding: 1.5rem 2rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+      .divider { margin: 0 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">DLH Project</div>
+    <ul class="nav-links">
+      <li><a href="#intro">Intro</a></li>
+      <li><a href="#purpose">Purpose</a></li>
+      <li><a href="#description">Description</a></li>
+      <li><a href="#budget">Budget</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero" id="intro">
+    <div class="hero-glow"></div>
+    <div class="hero-glow-2"></div>
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="hero-tag">Concept Paper</div>
+        <h1>Digital Learning <span>Hub</span></h1>
+        <p class="hero-desc">
+          Improving students' learning through ICT — a platform for organized digital resources, collaboration tools, and academic guidance.
+        </p>
+        <div class="hero-cta">
+          <a href="#purpose" class="btn-primary">Explore Project</a>
+          <a href="#contact" class="btn-outline">Contact Us</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-card-main">
+          <div class="card-icon-row">
+            <span class="card-dot r"></span>
+            <span class="card-dot y"></span>
+            <span class="card-dot g"></span>
+          </div>
+          <div class="card-label">Project Overview</div>
+          <div class="stat-grid">
+            <div class="stat-item">
+              <div class="stat-num">₱5K</div>
+              <div class="stat-label">Total Budget</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">4</div>
+              <div class="stat-label">Budget Items</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">21st</div>
+              <div class="stat-label">Century Skills</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">ICT</div>
+              <div class="stat-label">Focused</div>
+            </div>
+          </div>
+          <div class="floating-badge">🎓 School-Based Initiative</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="purpose">
+    <div class="section-inner reveal">
+      <div class="section-eyebrow">Background</div>
+      <h2 class="section-title">Why This Project Matters</h2>
+      <p class="section-body">
+        ICT has greatly influenced how students learn and access information. Yet despite technological availability, many students struggle with managing academic tasks, accessing organized learning materials, and collaborating effectively with peers.
+      </p>
+      <p class="section-body" style="margin-top:1rem;">
+        This project addresses those gaps by creating a centralized digital platform — a hub that encourages students to maximize technology to improve their learning experience and academic performance.
+      </p>
+      <div class="mv-grid">
+        <div class="mv-card">
+          <span class="mv-icon">🎯</span>
+          <h3>Mission</h3>
+          <p>To enhance students' learning experiences by promoting effective and responsible use of ICT tools, helping them organize tasks, access reliable study materials, and communicate efficiently with classmates and teachers.</p>
+        </div>
+        <div class="mv-card">
+          <span class="mv-icon">🔭</span>
+          <h3>Vision</h3>
+          <p>A future where every student is equipped with strong digital literacy skills, works collaboratively, and is organized in completing academic responsibilities — becoming competent and responsible digital citizens.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="desc-section" id="description">
+    <div class="section-inner reveal">
+      <div class="section-eyebrow">Description</div>
+      <h2 class="section-title">What the Hub Offers</h2>
+      <p class="section-body">
+        The Digital Learning Hub is a school-based initiative that creates an organized digital learning environment through an online platform serving as a central location for resources, communication, and collaboration.
+      </p>
+      <div class="desc-grid">
+        <div class="desc-card">
+          <div class="desc-card-num">01</div>
+          <h4>Learning Resources</h4>
+          <p>Lecture notes, learning modules, tutorial videos, and reference materials students can use to support their studies anytime, anywhere.</p>
+        </div>
+        <div class="desc-card">
+          <div class="desc-card-num">02</div>
+          <h4>Collaboration Tools</h4>
+          <p>Students can upload assignments, share files, and collaborate with classmates on group activities and school projects seamlessly.</p>
+        </div>
+        <div class="desc-card">
+          <div class="desc-card-num">03</div>
+          <h4>Training & Orientation</h4>
+          <p>Dedicated sessions to help students and teachers use the platform effectively for research, project creation, and digital presentations.</p>
+        </div>
+      </div>
+      <div style="margin-top: 3rem;">
+        <div class="section-eyebrow">Skills Developed</div>
+        <div class="skills-list">
+          <span class="skill-pill">Critical Thinking</span>
+          <span class="skill-pill">Collaboration</span>
+          <span class="skill-pill">Communication</span>
+          <span class="skill-pill">Creativity</span>
+          <span class="skill-pill">Digital Literacy</span>
+          <span class="skill-pill">Responsible Tech Use</span>
+          <span class="skill-pill">Academic Organization</span>
+          <span class="skill-pill">Digital Citizenship</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="budget">
+    <div class="section-inner reveal">
+      <div class="section-eyebrow">Support</div>
+      <h2 class="section-title">Project Budget</h2>
+      <p class="section-body">
+        To successfully implement the Digital Learning Hub, financial and material resources are required to cover internet connectivity, digital tools, and training materials.
+      </p>
+      <div class="budget-wrapper">
+        <div class="budget-header">
+          <span>Item</span>
+          <span>Estimated Cost</span>
+        </div>
+        <div class="budget-row">
+          <div class="budget-item-name">🌐 Internet Access & Connectivity</div>
+          <div class="budget-item-amount">₱2,000</div>
+        </div>
+        <div class="budget-row">
+          <div class="budget-item-name">📄 Training Materials (printed guides & handouts)</div>
+          <div class="budget-item-amount">₱1,000</div>
+        </div>
+        <div class="budget-row">
+          <div class="budget-item-name">💻 Online Platform / Software Subscription</div>
+          <div class="budget-item-amount">₱1,500</div>
+        </div>
+        <div class="budget-row">
+          <div class="budget-item-name">🔧 Miscellaneous (technical support & maintenance)</div>
+          <div class="budget-item-amount">₱500</div>
+        </div>
+        <div class="budget-total">
+          <div class="budget-total-label">Total Estimated Budget</div>
+          <div class="budget-total-amount">₱5,000</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="contact-section" id="contact">
+    <div class="section-inner reveal">
+      <div class="section-eyebrow">Get In Touch</div>
+      <div class="contact-card">
+        <div>
+          <h2 class="contact-heading">Have questions about the <span>project?</span></h2>
+          <p class="contact-sub">Reach out to our project coordinator for more information about the Digital Learning Hub and how you can get involved.</p>
+        </div>
+        <div class="contact-info-list">
+          <div class="contact-info-item">
+            <div class="contact-info-icon">👤</div>
+            <div>
+              <div class="contact-info-label">Name</div>
+              <div class="contact-info-value">Juan Dela Cruz</div>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">💼</div>
+            <div>
+              <div class="contact-info-label">Position</div>
+              <div class="contact-info-value">Project Coordinator</div>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">✉️</div>
+            <div>
+              <div class="contact-info-label">Email</div>
+              <div class="contact-info-value">juandelacruz@email.com</div>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">📱</div>
+            <div>
+              <div class="contact-info-label">Phone</div>
+              <div class="contact-info-value">0912-345-6789</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Digital Learning Hub</div>
+    <div class="footer-copy">Concept Paper — ICT-Driven Learning Initiative</div>
+  </footer>
+
+</body>
+</html>
